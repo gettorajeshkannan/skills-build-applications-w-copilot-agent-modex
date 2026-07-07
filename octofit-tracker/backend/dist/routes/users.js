@@ -1,11 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const user_1 = require("../models/user");
 const router = (0, express_1.Router)();
-router.get('/', (_req, res) => {
-    res.json([{ id: 1, name: 'Ada', role: 'admin' }]);
+router.get('/', async (_req, res) => {
+    const users = await user_1.User.find({}).lean();
+    res.json(users);
 });
-router.post('/', (_req, res) => {
-    res.status(201).json({ message: 'User created' });
+router.post('/', async (req, res) => {
+    const user = await user_1.User.create(req.body);
+    res.status(201).json(user);
 });
 exports.default = router;

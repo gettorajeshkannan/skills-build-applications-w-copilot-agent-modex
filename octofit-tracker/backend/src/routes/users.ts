@@ -1,13 +1,16 @@
 import { Router } from 'express';
+import { User } from '../models/user';
 
 const router = Router();
 
-router.get('/', (_req, res) => {
-  res.json([{ id: 1, name: 'Ada', role: 'admin' }]);
+router.get('/', async (_req, res) => {
+  const users = await User.find({}).lean();
+  res.json(users);
 });
 
-router.post('/', (_req, res) => {
-  res.status(201).json({ message: 'User created' });
+router.post('/', async (req, res) => {
+  const user = await User.create(req.body);
+  res.status(201).json(user);
 });
 
 export default router;
