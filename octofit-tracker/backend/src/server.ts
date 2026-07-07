@@ -23,12 +23,13 @@ app.get('/api/base-url', (_req, res) => {
 
 app.use('/api', apiRoutes);
 
-const codespaceUrl = process.env.CODESPACE_NAME
-  ? `https://${process.env.CODESPACE_NAME}-8000.app.github.dev`
+const codespaceName = process.env.CODESPACE_NAME;
+const serverUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
   : `http://localhost:${port}`;
 
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
   console.log(`API base URL: ${getApiBaseUrl()}`);
-  console.log(`Codespace URL: ${codespaceUrl}`);
+  console.log(`Server running at ${serverUrl}`);
 });
