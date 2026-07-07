@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 require("./config/database");
+const routes_1 = __importDefault(require("./routes"));
+const apiUrl_1 = require("./utils/apiUrl");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8000;
@@ -15,6 +17,11 @@ app.use(express_1.default.json());
 app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', message: 'Octofit Tracker API is running' });
 });
+app.get('/api/base-url', (_req, res) => {
+    res.json({ baseUrl: (0, apiUrl_1.getApiBaseUrl)() });
+});
+app.use('/api', routes_1.default);
 app.listen(port, () => {
     console.log(`Backend listening on port ${port}`);
+    console.log(`API base URL: ${(0, apiUrl_1.getApiBaseUrl)()}`);
 });
